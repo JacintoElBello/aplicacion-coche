@@ -1,0 +1,14 @@
+<p>parada-solicitada works!</p>
+
+<form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="onSubmit( registroForm)" #registroForm="ngForm">
+  <div class="wrap-input100 mb-3">
+      <input class="input100" type="text" name="parada" placeholder="parada" [(ngModel)]="paradaSolicitada.parada" required minlength="2">
+
+      <span class="focus-input100"></span>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Enviar</button>
+
+
+</form>

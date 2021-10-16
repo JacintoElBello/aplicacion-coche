@@ -1,0 +1,36 @@
+<div class="" style="max-width:1200px; margin: 0 auto;margin-top:120px">
+  <br><br>
+  <h1>LOGIN <img class="imgH1" src="../assets/images/login.jpg" ></h1>
+  <hr>
+    <div class="wrap-login100 p-t-50 p-b-90">
+        <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)=" onSubmit(registroForm)" #registroForm="ngForm">
+
+            <p>Introduce tu email y tu contraseña para acceder</p><br>
+
+            <div *ngIf="registroForm.submitted && registroForm.controls['email'].errors" class="text-danger animated fadeIn p-1"> El correo es obligatorio
+    </div>
+
+            <div class="wrap-input100 mb-3">
+                <input class="input100 form-control w-25" type="text" name="email" placeholder="Email" [(ngModel)]="user.email" required email>
+
+                <span class="focus-input100"></span>
+            </div>
+
+
+            <div *ngIf="registroForm.submitted && registroForm.controls['password'].errors" class="text-danger animated fadeIn p-1"> El pass tiene que tener mínimo 6 letras
+      </div>
+
+            <div class="wrap-input100">
+                <input class="input100 form-control w-25" type="password" name="password" placeholder="password" [(ngModel)]="user.password" required minlength="3" autocomplete="off">
+
+                <span class="focus-input100"></span>
+            </div>
+            <br>
+            <button class="btn btn-primary btn-block">Login</button>
+            <br><hr>
+            <div><a [routerLink]="['../reset-password']">¿Has olvidado tu contraseña?</a></div>
+
+        </form>
+        <div *ngIf="showErrorMessage == true" class="alert alert-danger">EL usuario o el mail no son correctos</div>
+    </div>
+</div>

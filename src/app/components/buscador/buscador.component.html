@@ -1,0 +1,54 @@
+<h1>BUSCADOR DE RUTAS</h1>
+<br>
+<p>Encuentra la ruta que mejor se adapte a ti</p>
+<br>
+<form (ngSubmit)="buscarRuta()">
+    <div class="row g-3 align-items-center mb-3">
+        <div class="width-150">
+            <label for="origen" class="col-form-label">Origen</label>
+        </div>
+        <div class="col-auto">
+            <input id="origen" class="form-control" type="text" name="origen" placeholder="origen" [(ngModel)]="origen">
+        </div>
+
+    </div>
+    <div class="row g-3 align-items-center mb-3">
+        <div class="width-150">
+            <label for="destino" class="col-form-label">Destino</label>
+        </div>
+        <div class="col-auto">
+            <input id="destino" class="form-control" type="text" name="destino" placeholder="destino" [(ngModel)]="destino">
+        </div>
+
+    </div>
+
+    <button class="btn btn-outline-success" type="submit">Buscar</button>
+
+</form>
+<p *ngIf="rutas.length==0">no hay resultados con el término : {{termino}}</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- *ngFor="let ruta of rutas; let i=index" -->
+    <!-- <app-ruta-tarjeta (rutaSeleccionada)="verRuta($event)" [ruta]="ruta" [index]="i" *ngFor="let ruta of rutas; let i=index"></app-ruta-tarjeta> -->
+
+    <div class="col" *ngFor="let ruta of rutas; let i=index">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><span class="regular">Origen</span> : {{ruta.origen}}</h5>
+                <h5 class="card-title"><span class="regular">Destino</span> : {{ruta.destino}}</h5>
+                <p class="card-text">Hora de salida : {{ruta.horaSalida}}</p>
+                <p class="card-text">Plazas disponibles : {{ruta.plazas}}</p>
+                <p class="card-text">Paradas : {{ruta.paradas}}</p>
+                <p class="card-text">Creada por : {{ruta.creador}}</p>
+                <!-- <p class="card-text">id: {{ruta._id}}</p> -->
+
+
+                <!-- <button  (rutaSeleccionada)="verRuta($event)" (click)="verRuta(ruta._id);" [id]="ruta._id" [ruta]="ruta"  type="button" class="btn-outline-primary">Ver mas cosas
+      </button> -->
+
+                <br>
+                <a [routerLink]="['/ruta',ruta._id]" class="btn btn-primary">Ver detalle</a>
+            </div>
+        </div>
+    </div>
+</div>

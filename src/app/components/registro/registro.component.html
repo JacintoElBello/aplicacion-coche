@@ -1,0 +1,79 @@
+<div class="" style="max-width:1200px; margin: 0 auto;margin-top:150px">
+  <br><br>
+  <h1>REGISTRO <img class="imgH1" src="../assets/images/register.jpg"></h1>
+
+  <div class="alert alert-success" *ngIf="registroOk === true">Bienvenido a Docentes en ruta. Ya puedes crear tu propio ruta o unirte a una existente</div>
+
+  <div class="wrap-login100 p-t-50 p-b-90 " *ngIf="registroOk !== true">
+    <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="onSubmit( registroForm)"
+      #registroForm="ngForm">
+
+      <span *ngIf="registroForm.submitted && registroForm.controls['username'].errors"
+        class="text-danger animated fadeIn"> El nombre tiene que tener mínimo 2 letras
+      </span>
+
+
+      <span *ngIf="existeUsuario === true"
+        class="text-danger animated fadeIn"> El nombre de usuario ya existe
+      </span>
+
+      <div class="wrap-input100 mb-3">
+        <input class="input100 form-control" type="text" name="username" placeholder="Nombre usuario"
+          [(ngModel)]="user.username" required minlength="2" (keyup)="onKey($event)">
+
+        <span class="focus-input100"></span>
+      </div>
+      <hr>
+      <span *ngIf="registroForm.submitted && registroForm.controls['email'].errors" class="text-danger animated fadeIn">
+        Introduce un email válido
+      </span>
+
+      <span *ngIf="existeEmail === true"
+      class="text-danger animated fadeIn"> Este email ya está registrado
+    </span>
+
+      <div class="wrap-input100 mb-3">
+        <input class="input100 form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" type="text" name="email" placeholder="Email" [(ngModel)]="user.email "
+          required email="true" minlength="9" (keyup)="onKeyMail($event)">
+        <span class="focus-input100"></span>
+      </div>
+
+      <span *ngIf="tfnoValidate === false" class="text-danger animated fadeIn">
+        Introduce un teléfono correcto sin espacios
+      </span>
+
+      <div class="wrap-input100 mb-3">
+        <input class="input100 form-control" type="text" name="tfno" #tfno placeholder="Teléfono (opcional) 666666666*" [(ngModel)]="user.tfno" (ngModelChange)="onTfnoChange($event)">
+        <span class="focus-input100"></span>
+      </div>
+      <p>* Tu email y tfno solo se mostrarán al creador de la ruta a la que te unas</p>
+      <hr>
+      <span *ngIf="registroForm.submitted && registroForm.controls['password'].errors"
+        class="text-danger animated fadeIn"> El pass tiene que tener mínimo 4 letras
+      </span>
+      <div class="wrap-input100 ">
+        <input class="input100 form-control" type="password" name="password" placeholder="Contraseña"
+          [(ngModel)]="user.password" required minlength="4">
+
+        <span class="focus-input100"></span>
+      </div>
+
+      <span *ngIf="passwordOk === false"
+      class="text-danger animated fadeIn"> Las contraseñas no coinciden
+    </span>
+    <div class="wrap-input100 ">
+      <input class="input100 form-control" type="password" name="confirmPassword" placeholder="Confirmar contraseña"
+        [(ngModel)]="confirmPassword" required minlength="4">
+
+      <span class="focus-input100"></span>
+    </div>
+      <br>
+
+      <br>
+      <button class="btn btn-primary" (click)="clickme(tfno.value)">Registrarme</button>
+
+    </form>
+  </div>
+
+
+</div>

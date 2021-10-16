@@ -1,0 +1,350 @@
+
+<div style="max-width:1200px; margin: 0 auto;margin-top:120px" id="creaRuta">
+  <br><br>
+<h1>CREAR RUTA <img class="imgH1" src="../assets/images/crearRuta.jpg" /></h1>
+<hr />
+
+
+<!-- Modal -->
+<div class="fade none" #exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{modalMensaje}}</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='close();'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form *ngIf="this.showFormOk == false"
+  class="login100-form validate-form flex-sb flex-w"
+  (ngSubmit)="onSubmit(registroForm)"
+  #registroForm="ngForm"
+>
+  <!-- <div class="wrap-input100 mb-3">
+        <input class="input100 w-25" type="text" name="origen" placeholder="origen" [(ngModel)]="ruta.origen" minlength="6">
+        <div *ngIf="registroForm.submitted && registroForm.controls['origen'].errors" class="text-danger animated fadeIn p-1"> Introduce el lugar de inicio de la ruta
+        </div>
+
+
+        <span class="focus-input100"></span>
+    </div> -->
+  <p class="fs-4">ORIGEN</p>
+  <div class="wrap-input100 mb-3">
+    <p><span>Selecciona provincia de origen</span></p>
+    <select
+      name="origenProvincia"
+      class="w-25"
+      [(ngModel)]="selectOrigen"
+      (change)="selectChangeOrigen()"
+      required
+    >
+      <option
+        [value]="item.id"
+        *ngFor="let item of provincias"
+        [ngValue]="item.id"
+      >
+        {{ item.nm }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        registroForm.submitted &&
+        registroForm.controls['origenProvincia'].errors
+      "
+      class="text-danger animated fadeIn p-1"
+    >
+      Introduce la provincia de la ruta
+    </div>
+  </div>
+
+  <div class="wrap-input100 mb-3">
+    <p><span>Selecciona localidad de origen</span></p>
+    <select name="origenLocalidad" class="w-25" [(ngModel)]="origenLocalidad"  required>
+      <option
+        [value]="item"
+        *ngFor="let item of localidadesOrigen"
+        [ngValue]="item.nm"
+
+      >
+        {{ item.nm }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        registroForm.submitted &&
+        registroForm.controls['origenLocalidad'].errors
+      "
+      class="text-danger animated fadeIn p-1"
+    >
+      Introduce la localidad de origen
+    </div>
+  </div>
+
+  <hr />
+  <p class="fs-4">DESTINO</p>
+  <div class="wrap-input100 mb-3">
+    <p><span>Selecciona provincia de destino</span></p>
+    <select
+      name="destinoProvincia"
+      class="w-25"
+      [(ngModel)]="selectDestino"
+      (change)="selectChange()"
+      required
+    >
+      <option
+        [value]="item.id"
+        *ngFor="let item of provincias"
+        [ngValue]="item.id"
+
+      >
+        {{ item.nm }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        registroForm.submitted &&
+        registroForm.controls['destinoProvincia'].errors
+      "
+      class="text-danger animated fadeIn p-1"
+    >
+      Introduce la provincia de destino
+    </div>
+  </div>
+
+  <div class="wrap-input100 mb-3">
+    <p><span>Selecciona localidad de destino</span></p>
+    <select
+      name="destinoLocalidad"
+      class="w-25"
+      [(ngModel)]="this.destinoLocalidad"
+      (change)="selectChangeCentro()"
+      required
+    >
+      <option
+        [value]="item"
+        *ngFor="let item of localidadesDestino"
+        [ngValue]="item.nm"
+
+      >
+        {{ item.nm }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        registroForm.submitted &&
+        registroForm.controls['destinoLocalidad'].errors
+      "
+      class="text-danger animated fadeIn p-1"
+    >
+      Introduce la localidad de destino
+    </div>
+  </div>
+
+  <div class="wrap-input100 mb-3">
+    <p><span>Selecciona centro</span></p>
+    <select name="centroSeleccionado" class="w-25" [(ngModel)]="this.destinoCentro"  >
+      <option
+        [value]="item"
+        *ngFor="let item of centros"
+        [ngValue]="item.nombre"
+
+
+      >
+        {{ item.nombre }}
+      </option>
+    </select>
+    <div
+      *ngIf="
+        registroForm.submitted && registroForm.controls['centroSeleccionado'].errors
+      "
+      class="text-danger animated fadeIn p-1"
+    >
+      Introduce el centro de destino
+    </div>
+  </div>
+  <p>Número de plazas disponibles</p>
+  <div
+    class="btn-group wrap-input100 mb-3"
+    role="group"
+    aria-label="Basic radio toggle button group"
+
+
+  >
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="btnradio1"
+      autocomplete="off"
+      checked
+      [(ngModel)]="ruta.plazas"
+      value="1"
+      required
+
+    />
+    <label class="btn btn-outline-primary" for="btnradio1">1</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="btnradio2"
+      autocomplete="off"
+      [(ngModel)]="ruta.plazas"
+      value="2"
+    />
+    <label class="btn btn-outline-primary" for="btnradio2">2</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="btnradio3"
+      autocomplete="off"
+      [(ngModel)]="ruta.plazas"
+      value="3"
+    />
+    <label class="btn btn-outline-primary" for="btnradio3">3</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio"
+      id="btnradio4"
+      autocomplete="off"
+      [(ngModel)]="ruta.plazas"
+      value="4"
+    />
+    <label class="btn btn-outline-primary" for="btnradio4">4</label>
+
+
+  </div>
+  <br />
+  <div
+  *ngIf="
+    registroForm.submitted && registroForm.controls['btnradio'].errors"
+  class="text-danger animated fadeIn p-1"
+>
+  selecciona el número de plazas
+</div>
+  <p>¿Aceptas a personas sin coche propio?</p>
+  <div
+    class="btn-group wrap-input100 mb-3"
+    role="group"
+    aria-label="Basic radio toggle button group"
+  >
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio5"
+      id="btnradio5"
+      autocomplete="off"
+      checked
+      [(ngModel)]="ruta.sinCoche"
+      value="si"
+      required
+    />
+    <label class="btn btn-outline-primary" for="btnradio5">Si</label>
+
+    <input
+      type="radio"
+      class="btn-check"
+      name="btnradio5"
+      id="btnradio6"
+      autocomplete="off"
+      [(ngModel)]="ruta.sinCoche"
+      value="no"
+    />
+    <label class="btn btn-outline-primary" for="btnradio6">No</label>
+  </div>
+<br>
+<div
+*ngIf="
+  registroForm.submitted && registroForm.controls['btnradio5'].errors"
+class="text-danger animated fadeIn p-1"
+>
+selecciona si admites usuarios sin coche propio
+</div>
+  <!--********************acepta paradas*///////////////////////-->
+  <p>¿Aceptas solicitudes para añadir paradas a tu ruta?</p>
+  <div
+  class="btn-group wrap-input100 mb-3"
+  role="group"
+  aria-label="Basic radio toggle button group"
+>
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnradio7"
+    id="btnradio7"
+    autocomplete="off"
+    checked
+    [(ngModel)]="ruta.aceptaParadas"
+    value="si"
+    required
+  />
+  <label class="btn btn-outline-primary" for="btnradio7">Si</label>
+
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnradio7"
+    id="btnradio8"
+    autocomplete="off"
+    [(ngModel)]="ruta.aceptaParadas"
+    value="no"
+  />
+  <label class="btn btn-outline-primary" for="btnradio8">No</label>
+</div>
+<div
+*ngIf="
+  registroForm.submitted && registroForm.controls['btnradio7'].errors"
+class="text-danger animated fadeIn p-1"
+>
+selecciona si admites solicitudes de parada en tu ruta
+</div>
+<!-- /*****************************fin acepta paradas*****************************/ -->
+
+  <!-- <div class="wrap-input100 mb-3">
+        <input class="input100" type="text" name="plazas" placeholder="plazas" [(ngModel)]="ruta.plazas" required minlength="1">
+
+        <span class="focus-input100"></span>
+        <div *ngIf="registroForm.submitted && registroForm.controls['plazas'].errors" class="text-danger animated fadeIn p-1"> Introduce el número de plazas disponibles
+        </div>
+    </div> -->
+  <br />
+  <button type="submit" class="btn btn-primary" >
+    <!-- [attr.data-bs-toggle]="modalToggle" [attr.data-bs-target]="modalTarget" -->
+    Enviar <img class="ms-2 imgButton" src="../assets/images/ok.png" />
+  </button>
+  <br /><br />
+  <hr />
+  <br />
+  <div class="wrap-input100 mb-3">
+
+
+    <span class="focus-input100 mx-3"
+      >¿Falta tu colegio en el listado? Háznoslo saber a través de <a href="#">este formulario</a>
+    </span>
+  </div>
+
+  <br /><br />
+
+</form>
+
+<div class="alert alert-success" role="alert" *ngIf="this.showFormOk == true">
+  Tu ruta se ha creado correctamente. No olvides marcarla como completa cuando
+  se hayan ocupado todas las plazas.<br><br>
+  Pues acceder a la sección <a [routerLink]="['../misRutas']">"Mis rutas"</a> para editar o consultar los detalles.
+</div>
+</div>

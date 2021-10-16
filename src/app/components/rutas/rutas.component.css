@@ -1,0 +1,28 @@
+.text_editors{height:30px}
+
+
+.list-group li{ background: white;}
+.list-group li:hover{background: wheat;} */
+li:focus {
+  outline:solid 1px green;
+  border-color: red;
+  color: red;
+}
+
+ul {position: absolute; z-index:9;}
+.fadein {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration:5s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  }
+  @keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  }

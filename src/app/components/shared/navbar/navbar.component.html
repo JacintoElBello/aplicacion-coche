@@ -1,0 +1,45 @@
+
+<nav class="navbar navbar-expand-lg nav navbar-light fixed-top  " >
+  <div class="container-fluid">
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse nav justify-content-center " id="navbarSupportedContent">
+      <!-- <div class="navbar-brand" href="#"><img class="me-2" style="margin-top:-5px; vertical-align:middle" src="../assets/images/logo.png"/></div> -->
+      <ul class="navbar-nav nav justify-content-center">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" aria-current="page" [routerLink]="['home']" (click)="clearSearch()"><img class="me-2" src="../assets/images/logo.jpg"/></a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" aria-current="page" [routerLink]="['home']" (click)="clearSearch()">HOME</a>
+        </li>
+         <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" aria-current="page" [routerLink]="['rutas']" (click)="clearSearch()">RUTAS</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" >
+          <a class="nav-link" aria-current="page" [routerLink]="['crearRuta']" *ngIf="userService.usuarioLogged" (click)="clearSearch()">CREAR RUTA</a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" *ngIf="userService.usuarioLogged">
+          <a class="nav-link" aria-current="page" [routerLink]="['misRutas']" (click)="clearSearch()">MIS RUTAS</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" *ngIf="userService.usuarioLogged == false">
+          <a class="nav-link" aria-current="page" [routerLink]="['registro']" (click)="clearSearch()">REGISTRO</a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" *ngIf="!userService.usuarioLogged">
+          <a class="nav-link ms-2" aria-current="page" [routerLink]="['login']" (click)="clearSearch()" ><img class="me-2" style="width:15px;margin-top:-5px; vertical-align:middle" src="../assets/images/user.png"/> LOGIN</a>
+        </li>
+
+
+        <li class="nav-item ms-2" routerLinkActive="active" *ngIf="userService.usuarioLogged">
+          <a class="nav-link" aria-current="page" [routerLink]="['home']" (click)="logout()"> <img class="me-2" style="width:15px;margin-top:-5px; vertical-align:middle" src="../assets/images/user.png"/> LOGOUT</a>
+        </li>
+
+      </ul>
+
+    </div>
+  </div>
+</nav>

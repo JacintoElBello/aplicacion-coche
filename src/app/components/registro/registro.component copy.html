@@ -1,0 +1,12 @@
+<div id=”registration”>
+  <form #myForm="ngForm" (ngSubmit)="register2(myForm)">
+  <label>Full Name</label>
+  <input type =”text” name=”username”  ngModel/><br>
+  <label>Email</label>
+  <input type =”text” name="email" ngçmodel /><br>
+  <label>Password</label>
+  <input type =”password” name=”password”  ngModel/><br>
+  <button >Registration</button>
+  <pre>{{myForm.value}}</pre>
+  </form>
+  </div>

@@ -1,0 +1,31 @@
+<div class="" style="max-width:1200px; margin: 0 auto;margin-top:150px">
+  <br><br>
+  <h1>RECUPERA LA CONTRASEÑA</h1>
+
+  <div class="wrap-login100 p-t-50 p-b-90 ">
+    <form class="login100-form validate-form flex-sb flex-w" (ngSubmit)="onSubmit( registroForm)"
+      #registroForm="ngForm">
+
+      <span *ngIf="registroForm.submitted && registroForm.controls['email'].errors" class="text-danger animated fadeIn">
+        Introduce un email válido
+      </span>
+
+      <!-- <span *ngIf="existeEmail === true"
+      class="text-danger animated fadeIn"> Este email ya está registrado
+    </span> -->
+
+      <div class="wrap-input100 mb-3">
+        <input class="input100 form-control"  type="text" name="email" placeholder="Email" [(ngModel)]="email "
+          required email="true" minlength="9" >
+        <span class="focus-input100"></span>
+      </div>
+
+      <br>
+      <button class="btn btn-primary">Enviar</button>
+
+
+
+    </form>
+  </div>
+
+</div>

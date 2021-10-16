@@ -1,0 +1,92 @@
+<br>
+<div class="row row-cols-1 row-cols-md-3 g-4" style="max-width:1200px; margin: 0 auto;margin-top:120px">
+  <!-- Modal -->
+<div class="fade none" #exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>hay que ver si se hace con un popup o con los mensajes que aparecen em verde</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='close();'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><span class="regular">Creador</span> : {{ruta.creador.username}}</h5>
+                <h5 class="card-title"><span class="regular">Origen</span> : {{ruta.origenLocalidad}}</h5>
+                <h5 class="card-title"><span class="regular">Destino</span> : {{ruta.destinoCentro}}</h5>
+                <p class="card-text">Plazas disponibles : {{ruta.plazas}}</p>
+                <p class="card-text">Usuarios</p>
+
+                <div *ngIf="ruta.creador._id == userLogged">
+                  <div *ngFor="let user of ruta.usuarios; let i=index" >
+                    <div>{{ruta.usuarios[i].username}} - {{user.email}}</div>
+                  </div>
+                </div>
+                <div *ngIf="ruta.creador._id != userLogged">
+                  <div *ngFor="let user of ruta.usuarios; let i=index" >
+                    <div>{{ruta.usuarios[i].username}} </div>
+                  </div>
+                </div>
+
+
+                <p *ngIf="ruta.aceptaParadas == 'si'" class="card-text">Paradas : {{ruta.paradas}}</p>
+
+
+            </div>
+        </div>
+        <br>
+        <div  *ngIf="ruta.creador._id == userLogged " class="alert alert-warning" role="alert">
+          <div *ngFor="let parada of this.ruta.paradasSolicitadas; let i=index">
+          <!-- <p>Tienes una solicitud de ruta. ¿Quieres aceptarla?</p> -->
+          <!-- <p>{{ruta.paradasSolicitadas[i].creador.username}} solicita parar en <dt>{{ruta.paradasSolicitadas[i].parada}}</dt></p> -->
+          <p>{{ruta.paradasSolicitadas[i].creador.username}} solicita parar en <dt>{{ruta.paradasSolicitadas[i].parada}}</dt></p>
+          <!-- <button type="button" (click)="aceptarParada(paradasSolicitadas[i])">Aceptar parada en tu ruta</button> FUNCIONA OK-->
+          <button type="button" (click)="aceptarParada(ruta.paradasSolicitadas[i])">Aceptar parada en tu ruta</button>
+          <button type="button" (click)="rechazarParada(paradasSolicitadas[i])" >Rechazar</button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+        <button (click)="back()" class="btn btn-primary btn-block w-50 h-15 mb-2">Volver</button><br>
+        <button *ngIf="this.ruta.creador.username != userLogged2.username && ruta.plazas > 0 && !inscritoEnRuta  && haSolicitadoParada != true" type="button" class="btn btn-primary btn-block w-50 h-15 mb-2" (click)="unirmeRuta(); " [class.disabled]="isClickedOnce" (click)="isClickedOnce = true">Unirme a la ruta</button><br>
+        <div *ngIf="inscritoEnRuta || showDivUnido.previous" class="alert alert-success">Ya formas parte de esta ruta</div>
+        <div *ngIf="paradaAceptada" class="alert alert-success">Has aceptado la parada</div>
+        <div *ngIf="haSolicitadoParada || showDiv.previous" class="alert alert-success">Has solicitado una parada en esta ruta, cuando el creador haya respondido te avisaremos</div>
+
+        <br>
+        <br>
+        <!-- <button type="button" class="btn btn-primary btn-block w-50 h-15 mb-2" (click)="addParada(this.values);" [class.disabled]="isClickedOnce" (click)="isClickedOnce = true">Solicitar parada</button><br> -->
+
+        <form *ngIf="ruta.creador._id != userLogged && ruta.plazas > 0 && !inscritoEnRuta && ruta.aceptaParadas == 'si' && haSolicitadoParada != true && !showDiv.previous " class="login100-form validate-form flex-sb flex-w" (ngSubmit)="onSubmit( registroForm)" #registroForm="ngForm">
+          <p>Si quieres solicitar una parada en este trayecto, selecciona un centro </p>
+          <div class="wrap-input100 mb-3">
+            <select name="centroSeleccionado"  [(ngModel)]="paradaSolicitada.parada" >
+              <option [value]="item" *ngFor="let item of centros" [ngValue]="item.nombre">{{item.nombre}}</option>
+            </select>
+        </div>
+
+
+          <button type="submit" class="btn btn-primary">Enviar</button>
+          <!-- <button type="submit" class="btn btn-primary" (click)="open()">Enviar</button> -->
+
+
+        </form>
+
+
+    </div>
+
+</div>
+<div class="alert alert-success" role="alert" *ngIf="unidoOk">
+  Enhorabuena! Te has unido a una ruta para ir a {{ruta.destinoCentro}}
+</div>

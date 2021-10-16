@@ -1,0 +1,795 @@
+<div>
+
+  <div style="text-align: center;">
+    <h1>Welcome to the series searcher</h1>
+    <p>You can search for your favorite series below</p>
+   <div class="searchbar">
+  <div class="w-100">
+      <input class="w-100 rounded p-2" #gf type="text" #searchbar placeholder="Introduce el nombre del centro"  (keyup)="fetchSeries($event)"  [(ngModel)]="origenProvincia"/>
+   </div>
+<ul class="list-group">
+  <li role="button" class="list-group-item" *ngFor="let show of searchResult" (click)="clica(show.id, show.nm)"  >
+     <p> {{ show.nm }}</p>
+  </li>
+</ul>
+<!-- <select style="width:300px" (change)="selectChangeOrigen()" [(ngModel)]="selectOrigen">
+  <option *ngFor="let item of searchResult" [value]="item.id"
+  [ngValue]="item.id" >
+      {{ item.nm }}
+  </option>
+</select> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1>
+    RUTAS DISPONIBLES <img class="imgH1" src="../assets/images/route.png" />
+  </h1>
+  <hr />
+  <div id="rutasContainer" *ngIf="this.userService.loggedIn == true">
+    <div class="g-4">
+      <!-- *ngFor="let ruta of rutas; let i=index" -->
+      <!-- <app-ruta-tarjeta (rutaSeleccionada)="verRuta($event)" [ruta]="ruta" [index]="i" *ngFor="let ruta of rutas; let i=index"></app-ruta-tarjeta> -->
+
+      <form
+        class="login100-form validate-form flex-sb flex-w"
+        (ngSubmit)="onSubmit(rutaFiltroForm)"
+        #rutaFiltroForm="ngForm"
+      >
+
+
+        <p class="pb-3 pt-1">
+          Elige tu destino y encuentra la ruta que más se adapte a ti
+        </p>
+
+
+
+
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Provincia Origen</span></p>
+<!--
+            <select
+            name="origenProvincia"
+            class="w-25"
+            required
+            [(ngModel)]="selectOrigen"
+            (change)="selectChangeOrigen()"
+            data-live-search="true"
+
+
+          >
+            <option
+              [value]="item.id"
+              [ngValue]="item.id"
+              *ngFor="let item of provincias"
+
+              required
+            >
+              {{ item.nm }}
+            </option>
+
+
+
+          </select> -->
+
+          <!-- <div *ngIf="registroForm.submitted && registroForm.controls['destinoProvincia'].errors" class="text-danger animated fadeIn p-1"> Introduce el lugar de inicio de la ruta
+          </div> -->
+        </div>
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Localidad Origen</span></p>
+          <select
+            [disabled]="!selectOrigen"
+            name="origenLocalidad"
+            class="w-25"
+            [(ngModel)]="this.origenLocalidad"
+            required
+            data-live-search="true"
+          >
+            <option
+              [value]="item"
+              *ngFor="let item of localidadesOrigen"
+              [ngValue]="item.nm"
+
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              rutaFiltroForm.submitted &&
+              rutaFiltroForm.controls['origenLocalidad'].errors
+            "
+            class="text-danger animated fadeIn p-1"
+          >
+            Selecciona una localidad
+          </div>
+        </div>
+
+        <hr />
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Provincia destino</span></p>
+          <select
+            name="destinoProvincia"
+            class="w-25"
+            [(ngModel)]="selectDestino"
+            (change)="selectChange()"
+            required
+          >
+            <option
+              [value]="item.id"
+              *ngFor="let item of provincias"
+              [ngValue]="item.id"
+
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <!-- <div *ngIf="registroForm.submitted && registroForm.controls['destinoProvincia'].errors" class="text-danger animated fadeIn p-1"> Introduce el lugar de inicio de la ruta
+      </div> -->
+        </div>
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Localidad destino</span></p>
+          <select
+            [disabled]="!selectDestino"
+            name="destinoLocalidad"
+            class="w-25"
+            [(ngModel)]="this.destinoLocalidad"
+            (change)="selectChangeCentro()"
+            required
+          >
+            <option
+              [value]="item"
+              *ngFor="let item of localidadesDestino"
+              [ngValue]="item.nm"
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              rutaFiltroForm.submitted &&
+              rutaFiltroForm.controls['destinoLocalidad'].errors
+            "
+            class="text-danger animated fadeIn p-1"
+          >
+            Selecciona una localidad
+          </div>
+        </div>
+        <hr />
+         <!-- <div class="wrap-input100 mb-3 pb-3">
+          <select name="centroSeleccionado" [(ngModel)]="this.destinoCentro">
+            <option value="">Ninguno</option>
+
+            <option
+              [value]="item"
+              *ngFor="let item of centros"
+              [ngValue]="item.nombre"
+            >
+              {{ item.nombre }}
+            </option>
+          </select>
+        </div> -->
+
+<p>Selecciona un centro</p>
+         <div class="wrap-input100 mb-3">
+          <input list=text_editors class="w-50"
+          name="centroSeleccionado"
+          [(ngModel)]="this.destinoCentro"
+          [disabled]="!this.destinoLocalidad"
+          data-live-search="true" autocomplete="off">
+
+          <datalist id="text_editors" class="w-100" >
+              <select class="w-100">
+
+                <option
+                [value]="item.nombre"
+                *ngFor="let item of centros"
+                [ngValue]="item.nombre"
+              >
+                {{ item.nombre }}
+              </option>
+              </select>
+            </datalist>
+
+  </div>
+
+
+        <p>¿Tienes vehículo propio?</p>
+        <div
+          class="btn-group wrap-input100 mb-3"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio"
+            id="btncoche1"
+            autocomplete="off"
+            checked
+            value="si"
+            [(ngModel)]="tienesCoche"
+            required
+          />
+          <label class="btn btn-outline-primary" for="btncoche1">Si</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio"
+            id="btncoche2"
+            autocomplete="off"
+            [(ngModel)]="tienesCoche"
+            value="no"
+          />
+          <label class="btn btn-outline-primary" for="btncoche2">No</label>
+        </div>
+
+
+
+<div  *ngIf="tienesCoche == 'si'">
+        <p>¿Quieres que se muestren rutas que acepten a gente sin coche?</p>
+        <div
+          class="btn-group wrap-input100 mb-3"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio2"
+            id="btncoche3"
+            autocomplete="off"
+            [(ngModel)]="sinCoche"
+            value="si"
+            required
+          />
+          <label class="btn btn-outline-primary" for="btncoche3">Si</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio2"
+            id="btncoche4"
+            autocomplete="off"
+            [(ngModel)]="sinCoche"
+            value="no"
+          />
+          <label class="btn btn-outline-primary" for="btncoche4">No</label>
+        </div>
+        <div
+        *ngIf="
+          rutaFiltroForm.submitted &&
+          rutaFiltroForm.controls['btncochePropio2'].errors
+        "
+        class="text-danger animated fadeIn p-1"
+      >
+        Selecciona si o no
+      </div>
+    </div>
+        <br><br>
+
+
+        <p>¿Quieres que se muestren rutas que acepten gente de otros centros?</p>
+
+
+<div
+  class="btn-group wrap-input100 mb-3"
+  role="group"
+  aria-label="Basic radio toggle button group"
+>
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnaceptaparada"
+    id="btnaceptaparada1"
+    autocomplete="off"
+    checked
+    [(ngModel)]="mostrarRutaConParada"
+    value="no"
+    required
+  />
+  <label class="btn btn-outline-primary" for="btnaceptaparada1">Si</label>
+
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnaceptaparada"
+    id="btnaceptaparada2"
+    autocomplete="off"
+    [(ngModel)]="mostrarRutaConParada"
+    value="si"
+  />
+  <label class="btn btn-outline-primary" for="btnaceptaparada2">No</label>
+</div>
+
+<div
+*ngIf="
+  rutaFiltroForm.submitted &&
+  rutaFiltroForm.controls['btnaceptaparada'].errors
+"
+class="text-danger animated fadeIn p-1"
+>
+Selecciona si o no
+</div>
+<br><br>
+
+        <button type="submit" class="btn btn-primary">
+          Buscar Rutas<img
+            class="ms-2 imgButton"
+            src="../assets/images/filter.png"
+          />
+        </button>
+        <!-- <button
+          type="button"
+          (click)="eliminarFiltro()"
+          class="btn btn-primary mx-3"
+        >
+          Eliminar filtro<img
+            class="ms-2 imgButton"
+            src="../assets/images/nofilter.png"
+          />
+        </button> -->
+      </form>
+      <br>
+      <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="this.filtro == true && this.rutas == 0">
+        <div class="alert alert-success text-center pb-4" role="alert">
+          Hay <strong>{{ this.rutas.length }}</strong> rutas que van a tu destino.
+          Puedes crear una.<br /><br />
+          <button class="btn btn-primary" [routerLink]="['../crearRuta']">
+            Ir a crear ruta
+          </button>
+        </div>
+      </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col" *ngFor="let ruta of rutas; let i = index">
+
+
+        <div class="card" *ngIf="this.ruta.creador._id == this.user._id">
+          <div class="card-body">
+            <div class="titCard">
+              <h5 class="card-title">
+               <div class="alert alert-success">Esta ruta es tuya, ¿quieres editarla?</div>
+                <span class="regular">Origen</span> : {{ ruta.origenLocalidad }}
+              </h5>
+              <h5 class="card-title">
+                <span class="regular">Destino</span> : {{ ruta.destinoCentro }}
+              </h5>
+            </div>
+            <p class="card-text">Plazas disponibles : {{ ruta.plazas }}</p>
+            <p *ngIf="ruta.aceptaParadas == 'si'" class="card-text">Paradas : {{ruta.paradas}}</p>
+
+            <!-- <p class="card-text">Creada por : {{ruta.creador}}</p> -->
+            <!-- <p class="card-text">id: {{ruta._id}}</p> -->
+
+            <!-- <button  (rutaSeleccionada)="verRuta($event)" (click)="verRuta(ruta._id);" [id]="ruta._id" [ruta]="ruta"  type="button" class="btn-outline-primary">Ver mas cosas
+        </button> -->
+
+        <p *ngIf="!esCreador">
+            <a [routerLink]="['/editarRuta',ruta._id]" class="btn btn-primary"
+              >Editar Ruta
+              <img class="ms-2 imgButton" src="../assets/images/map.png"
+            /></a></p>
+
+          </div>
+        </div>
+
+
+
+        <div class="card" *ngIf="this.ruta.creador._id !== this.user._id">
+          <div class="card-body">
+            <div class="titCard">
+              <h5 class="card-title">
+                <span class="regular">Origen</span> : {{ ruta.origenLocalidad }}
+              </h5>
+              <h5 class="card-title">
+                <span class="regular">Destino</span> : {{ ruta.destinoCentro }}
+              </h5>
+            </div>
+            <p class="card-text">Plazas disponibles : {{ ruta.plazas }}</p>
+            <p *ngIf="ruta.aceptaParadas == 'si'" class="card-text">Paradas : {{ruta.paradas}}</p>
+
+            <!-- <p class="card-text">Creada por : {{ruta.creador}}</p> -->
+            <!-- <p class="card-text">id: {{ruta._id}}</p> -->
+
+            <!-- <button  (rutaSeleccionada)="verRuta($event)" (click)="verRuta(ruta._id);" [id]="ruta._id" [ruta]="ruta"  type="button" class="btn-outline-primary">Ver mas cosas
+        </button> -->
+
+        <p *ngIf="!esCreador">
+            <a [routerLink]="['/ruta', ruta._id]" class="btn btn-primary"
+              >Ver detalle
+              <img class="ms-2 imgButton" src="../assets/images/map.png"
+            /></a></p>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+<!-- COMIENZO FORM SIN-->
+
+
+
+  <div id="rutas_Container" *ngIf="this.userService.loggedIn != true">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <!-- *ngFor="let ruta of rutas; let i=index" -->
+      <!-- <app-ruta-tarjeta (rutaSeleccionada)="verRuta($event)" [ruta]="ruta" [index]="i" *ngFor="let ruta of rutas; let i=index"></app-ruta-tarjeta> -->
+
+      <form
+        class=" validate-form flex-sb flex-w w-100"
+        (ngSubmit)="onSubmit(rutaFiltroForm)"
+        #rutaFiltroForm="ngForm"
+      >
+        <p>Elige tu destino y encuentra si hay rutas disponibles para unirte</p>
+        <hr />
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Provincia Origen</span></p>
+          <select
+            name="origenProvincia"
+            class="w-100"
+            [(ngModel)]="selectOrigen"
+            (change)="selectChangeOrigen()"
+            required
+          >
+            <option
+              [value]="item.id"
+              *ngFor="let item of provincias"
+              [ngValue]="item.id"
+
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <div
+          *ngIf="
+            rutaFiltroForm.submitted &&
+            rutaFiltroForm.controls['origenProvincia'].errors
+          "
+          class="text-danger animated fadeIn p-1"
+        >
+          Selecciona una provincia de origen
+        </div>
+
+          <!-- <div *ngIf="registroForm.submitted && registroForm.controls['destinoProvincia'].errors" class="text-danger animated fadeIn p-1"> Introduce el lugar de inicio de la ruta
+          </div> -->
+        </div>
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Localidad Origen</span></p>
+          <select
+            [disabled]="!selectOrigen"
+            name="origenLocalidad"
+            class="w-100"
+            [(ngModel)]="this.origenLocalidad"
+            required
+          >
+            <option
+              [value]="item"
+              *ngFor="let item of localidadesOrigen"
+              [ngValue]="item.nm"
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              rutaFiltroForm.submitted &&
+              rutaFiltroForm.controls['origenLocalidad'].errors
+            "
+            class="text-danger animated fadeIn p-1"
+          >
+            Selecciona una localidad
+          </div>
+        </div>
+
+
+
+
+        <hr>
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Provincia Destino</span></p>
+          <select
+            name="destinoProvincia"
+            class="w-100"
+            [(ngModel)]="selectDestino"
+            (change)="selectChange()"
+            required
+          >
+            <option
+              [value]="item.id"
+              *ngFor="let item of provincias"
+              [ngValue]="item.id"
+
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+
+          <div
+          *ngIf="
+            rutaFiltroForm.submitted &&
+            rutaFiltroForm.controls['destinoProvincia'].errors
+          "
+          class="text-danger animated fadeIn p-1"
+        >
+          Selecciona una Provincia de destino
+        </div>
+        </div>
+
+        <div class="wrap-input100 mb-3">
+          <p><span>Selecciona Localidad Destino</span></p>
+          <select
+            [disabled]="!selectDestino"
+            name="destinoLocalidad"
+            class="w-100"
+            (change)="selectChangeCentro()"
+            [(ngModel)]="this.destinoLocalidad"
+            required
+          >
+            <option
+              [value]="item"
+              *ngFor="let item of localidadesDestino"
+              [ngValue]="item.nm"
+            >
+              {{ item.nm }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              rutaFiltroForm.submitted &&
+              rutaFiltroForm.controls['destinoLocalidad'].errors
+            "
+            class="text-danger animated fadeIn p-1"
+          >
+            Selecciona una localidad
+          </div>
+        </div>
+
+<p>Selecciona un centro</p>
+        <div class="wrap-input100 mb-3">
+          <input list=text_editors
+          name="centroSeleccionado"
+          [(ngModel)]="this.destinoCentro"
+          [disabled]="!this.destinoLocalidad"
+          data-live-search="true" autocomplete="off">
+
+          <datalist id="text_editors" class="w-25" >
+              <select>
+                <option>
+                  Ninguno
+                </option>
+                <option
+                [value]="item.nombre"
+                *ngFor="let item of centros"
+                [ngValue]="item.nombre"
+              >
+                {{ item.nombre }}
+              </option>
+              </select>
+            </datalist>
+
+  </div>
+
+  <br><br><br>
+
+
+
+
+
+
+
+
+<!--
+        <div class="wrap-input100 mb-3 pb-3">
+          <p><span>Selecciona centro</span></p>
+          <select
+
+            name="centroSeleccionado"
+            [(ngModel)]="this.destinoCentro"
+            [disabled]="!this.destinoLocalidad"
+          >
+          <option value="">Ninguno</option>
+            <option
+              [value]="item"
+              *ngFor="let item of centros"
+              [ngValue]="item.nombre"
+            >
+              {{ item.nombre }}
+            </option>
+          </select>
+        </div> -->
+
+
+        <p>¿Tienes vehículo propio?</p>
+        <div
+          class="btn-group wrap-input100 mb-3"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio"
+            id="btncoche1"
+            autocomplete="off"
+            checked
+            value="si"
+            [(ngModel)]="tienesCoche"
+            required
+          />
+          <label class="btn btn-outline-primary" for="btncoche1">Si</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio"
+            id="btncoche2"
+            autocomplete="off"
+            [(ngModel)]="tienesCoche"
+            value="no"
+          />
+          <label class="btn btn-outline-primary" for="btncoche2">No</label>
+        </div>
+
+
+
+<div  *ngIf="tienesCoche == 'si'">
+        <p>¿Quieres que se muestren rutas que acepten a gente sin coche?</p>
+        <div
+          class="btn-group wrap-input100 mb-3"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio2"
+            id="btncoche3"
+            autocomplete="off"
+            [(ngModel)]="sinCoche"
+            value="si"
+            required
+          />
+          <label class="btn btn-outline-primary" for="btncoche3">Si</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btncochePropio2"
+            id="btncoche4"
+            autocomplete="off"
+            [(ngModel)]="sinCoche"
+            value="no"
+          />
+          <label class="btn btn-outline-primary" for="btncoche4">No</label>
+        </div>
+        <div
+        *ngIf="
+          rutaFiltroForm.submitted &&
+          rutaFiltroForm.controls['btncochePropio2'].errors
+        "
+        class="text-danger animated fadeIn p-1"
+      >
+        Selecciona si o no
+      </div>
+    </div>
+        <br><br>
+
+
+        <p>¿Quieres que se muestren rutas que acepten gente de otros centros?</p>
+
+
+<div
+  class="btn-group wrap-input100 mb-3"
+  role="group"
+  aria-label="Basic radio toggle button group"
+>
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnaceptaparada"
+    id="btnaceptaparada1"
+    autocomplete="off"
+    checked
+    [(ngModel)]="mostrarRutaConParada"
+    value="no"
+    required
+  />
+  <label class="btn btn-outline-primary" for="btnaceptaparada1">Si</label>
+
+  <input
+    type="radio"
+    class="btn-check"
+    name="btnaceptaparada"
+    id="btnaceptaparada2"
+    autocomplete="off"
+    [(ngModel)]="mostrarRutaConParada"
+    value="si"
+  />
+  <label class="btn btn-outline-primary" for="btnaceptaparada2">No</label>
+</div>
+
+<div
+*ngIf="
+  rutaFiltroForm.submitted &&
+  rutaFiltroForm.controls['btnaceptaparada'].errors
+"
+class="text-danger animated fadeIn p-1"
+>
+Selecciona si o no
+</div>
+
+  <br>
+
+        <button type="submit" class="btn btn-primary">
+          Buscar
+          <img class="ms-2 imgButton" src="../assets/images/ok.png" /></button
+        ><br /><br />
+
+
+      </form>
+    </div>
+
+
+    <br /><br />
+
+  </div>
+
+
+
+  <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="this.userService.loggedIn == false && this.filtro == true && this.rutas.length > 0">
+    <div class="alert alert-success text-center pb-4" role="alert">
+      Hay <strong>{{ this.rutas.length }}</strong> rutas que van a tu destino.
+      Puedes registrarte para consultar los detalles<br /><br />
+      <button class="btn btn-primary" [routerLink]="['../registro']">
+        Ir a Registro
+      </button>
+    </div>
+  </div>
+
+
+  <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="this.userService.loggedIn == false && this.filtro == true && this.rutas.length == 0">
+    <div class="alert alert-success text-center pb-4" role="alert">
+      No hay ninguna ruta con los parámetros seleccionados. Puedes registrarte y crearla tú.<br /><br />
+      <button class="btn btn-primary" [routerLink]="['../registro']">
+        Ir a Registro
+      </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+</div>

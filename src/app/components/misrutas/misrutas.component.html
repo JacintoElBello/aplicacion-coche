@@ -1,0 +1,122 @@
+
+<div style="max-width:1200px; margin: 0 auto;margin-top:150px" id="creaRuta">
+
+<h1>MIS RUTAS</h1>
+
+<!-- modal -->
+<div class="fade none" #exampleModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Si continúas te borrarás de la ruta</p>
+
+        <button class="btn btn-primary" (click)='confirmaBorrar(rutaBorrar);'>Continuar</button>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)='close();'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!------>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- *ngFor="let ruta of rutas; let i=index" -->
+    <!-- <app-ruta-tarjeta (rutaSeleccionada)="verRuta($event)" [ruta]="ruta" [index]="i" *ngFor="let ruta of rutas; let i=index"></app-ruta-tarjeta> -->
+
+    <div class="col" *ngFor="let ruta of misRutas; let i=index">
+        <div class="card">
+            <div class="card-body">
+
+              <div *ngIf="this.misRutas[i].creador._id === this.user">
+
+                <div *ngIf="this.misRutas[i].creador._id == this.user" class="alert alert-success">Esta ruta la has creado tú</div>
+                <h5 class="card-title"><span class="regular">Creador</span> : {{ruta.creador.username}}</h5>
+                <h5  class="card-title"><span class="regular">Contacto del creador</span></h5>
+                <p  class="card-text"> {{ruta.creador.email}}</p>
+                <p  class="card-text"> {{ruta.creador.tfno}}</p>
+                <h5 class="card-title"><span class="regular">Origen</span> : {{ruta.origenLocalidad}}</h5>
+                <h5 class="card-title" *ngIf="ruta.destinoCentro"><span class="regular">Destino</span> : {{ruta.destinoCentro}}</h5>
+                <h5 class="card-title" *ngIf="ruta.destinoLocalidad && !ruta.destinoCentro"><span class="regular">Destino</span> : {{ruta.destinoLocalidad}}</h5>
+                <p class="card-text">Plazas disponibles : {{ruta.plazas}}</p>
+                <p *ngIf="ruta.aceptaParadas == true && ruta.paradas.length > 0">Paradas : {{ruta.paradas}}</p>
+
+                <p class="card-text" *ngIf="ruta.usuarios.length > 0">Usuarios : </p>
+                 <!-- <div class="card-text mx-2" *ngFor="let user of ruta.usuarios; let i=index"> <b>{{ruta.usuarios[i].username}} </b> -</div> -->
+
+                 <div *ngFor="let user of ruta.usuarios; let i=index" >
+
+                  <div>{{ruta.usuarios[i].username}} - {{user.email}}</div>
+
+                 </div>
+                 <!-- <div *ngIf="this.misRutas[i].creador._id == this.user">{{ruta.usuarios[i].email}}</div> -->
+                <!-- <p class="card-text">Creada por : {{ruta.creador}}</p> -->
+
+
+                <!-- <button [routerLink]="['/ruta',ruta._id]" class="btn btn-primary btn-block">Ver Detalle</button> -->
+                <button *ngIf="this.misRutas[i].creador._id == this.user" [routerLink]="['/editarRuta',ruta._id]" class="btn btn-primary btn-block  ">Editar</button>
+
+
+
+
+</div>
+
+<div *ngIf="this.misRutas[i].creador._id !== this.user">
+
+  <div class="col alert alert-success" *ngFor="let parada of misRutas[i].paradasSolicitadas; let i=index">Has solicitado una parada en esta ruta. Estamos a la espera de que el creador la acepte o no</div>
+  <br>
+
+
+  <h5 class="card-title"><span class="regular">Creador</span> : {{ruta.creador.username}}</h5>
+  <h5  class="card-title"><span class="regular">Contacto del creador</span></h5>
+  <p  class="card-text"> {{ruta.creador.email}}</p>
+  <p  class="card-text"> {{ruta.creador.tfno}}</p>
+
+  <h5 class="card-title"><span class="regular">Origen</span> : {{ruta.origenLocalidad}}</h5>
+  <h5 class="card-title" *ngIf="ruta.destinoCentro"><span class="regular">Destino</span> : {{ruta.destinoCentro}}</h5>
+  <h5 class="card-title" *ngIf="ruta.destinoLocalidad && !ruta.destinoCentro"><span class="regular">Destino</span> : {{ruta.destinoLocalidad}}</h5>
+  <p class="card-text">Plazas disponibles : {{ruta.plazas}}</p>
+  <p *ngIf="ruta.aceptaParadas == true && ruta.paradas.length > 0">Paradas : {{ruta.paradas}}</p>
+
+  <p class="card-text" *ngIf="ruta.usuarios.length > 0">Usuarios : </p>
+   <div class="card-text mx-2" *ngFor="let user of ruta.usuarios; let i=index"> <b>{{ruta.usuarios[i].username}} </b> -</div>
+   <br>
+   <button *ngIf="this.misRutas[i].creador._id != this.user"  class="btn btn-primary btn-block" (click)="borrarmeDeRuta(ruta)">Borrarme de la ruta</button>
+
+
+   <!-- <div *ngFor="let user of ruta.usuarios; let i=index" class="alert alert-success">
+
+
+
+   </div> -->
+   <!-- <div *ngIf="this.misRutas[i].creador._id == this.user">{{ruta.usuarios[i].email}}</div> -->
+  <!-- <p class="card-text">Creada por : {{ruta.creador}}</p> -->
+
+
+  <!-- <button [routerLink]="['/ruta',ruta._id]" class="btn btn-primary btn-block">Ver Detalle</button> -->
+  <button *ngIf="this.misRutas[i].creador._id == this.user" [routerLink]="['/editarRuta',ruta._id]" class="btn btn-primary btn-block  ">Editar</button>
+
+
+
+
+</div>
+
+
+
+            </div>
+        </div>
+        <div class="alert alert-warning " role="alert" *ngIf=" this.ruta.paradasSolicitadas.length > 0 && esElCreador">
+          <p>Tienes una solicitud de parada en tu ruta</p>
+          <button [routerLink]="['/ruta',ruta._id]">Ver solicitud</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="showMessage" class="alert alert-success">Te has borrado de la ruta</div>
+</div>
+
