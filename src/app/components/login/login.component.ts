@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
         this.userService.editUser(res.usuario).subscribe(
           (res) => {
             //ya se ha guardado el token
+
             localStorage.setItem('usuario', user);
             localStorage.setItem('token', token);
             this.userService.usuarioLogged = JSON.parse(localStorage.getItem('usuario'));
@@ -59,10 +60,7 @@ export class LoginComponent implements OnInit {
         )
     },
     (error) => {
-
-
       this.showErrorMessage = true;
-
     },
     () => {
 

@@ -73,7 +73,6 @@ export class UserService {
 
   getUserName() {
     this.usuarioLoggedName = String(localStorage.getItem('usuarioName'));
-
     return this.usuarioLoggedName;
   }
   getUser() {
